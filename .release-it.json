@@ -1,0 +1,39 @@
+{
+    "$schema": "https://unpkg.com/release-it@17/schema/release-it.json",
+    "git": {
+        "commitMessage": "chore: release v${version} [skip ci]",
+        "tagName": "v${version}",
+        "commitsPath": "--grep=\"^fix:\" --grep=\"^feat:\" .",
+        "push": true,
+        "requireCommits": true,
+        "requireCommitsFail": false
+    },
+    "github": {
+        "release": false
+    },
+    "npm": {
+        "publish": true
+    },
+    "hooks": {
+        "before:init": "./scripts/before-init.sh",
+        "after:bump":"git add . && git commit -m 'chore: changelog [skip ci]'"
+    },
+    "plugins": {
+        "@release-it/conventional-changelog": {
+            "preset": {
+                "name": "angular"
+            },
+            "infile": "CHANGELOG.md",
+            "types": [
+                {
+                    "type": "feat",
+                    "section": "Features"
+                },
+                {
+                    "type": "fix",
+                    "section": "Bug Fixes"
+                }
+            ]
+        }
+    }
+}

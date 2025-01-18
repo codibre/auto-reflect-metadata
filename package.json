@@ -1,0 +1,84 @@
+{
+  "name": "auto-reflect-metadata",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "decorators.js",
+    "plugin.js"
+  ],
+  "scripts": {
+    "lint": "npm run lint:format && npm run lint:style",
+    "lint:fix": "npm run lint:format:fix && npm run lint:style:fix",
+    "lint:format": "prettier --check '{src,test}/**/*.ts'",
+    "lint:format:fix": "prettier --write '{src,test}/**/*.ts'",
+    "lint:style": "eslint 'src/**'",
+    "lint:style:fix": "eslint 'src/**' --fix",
+    "build": "nest build",
+    "prepare": "husky",
+    "test": "jest test/unit",
+    "test:coverage": "jest test/unit --coverage",
+    "publish": "release-it --ci"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@nestjs/cli": "^10.4.5",
+    "@types/lint-staged": "^13.3.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "reflect-metadata": "^0.1.0",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "reflect-metadata": "*",
+    "@nestjs/cqrs": "*",
+    "@nestjs/swagger": "*"
+  },
+  "peerDependenciesMeta": {
+    "@nestjs/cqrs": {
+      "optional": true
+    },
+    "@nestjs/swagger": {
+      "optional": true
+    }
+  },
+  "contributors": [
+    "Thiago O Santos <tos.oliveira@gmail.com>"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codibre/auto-reflect-metadata"
+  },
+  "homepage": "https://codibre.github.io/auto-reflect-metadata",
+  "bugs": {
+    "url": "https://github.com/codibre/auto-reflect-metadata/issues"
+  },
+  "keywords": [
+    "typescript",
+    "@nestjs/cli",
+    "typing",
+    "emitDecoratorMetadata",
+    "metadata",
+    "auto",
+    "nestjs",
+    "decorators",
+    "inject",
+    "injection",
+    "ioc"
+  ],
+  "dependencies": {
+    "@codibre/fluent-iterable": "^1.39.1",
+    "is-this-a-pigeon": "^0.11.0"
+  }
+}

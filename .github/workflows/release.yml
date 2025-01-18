@@ -1,0 +1,42 @@
+name: release
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  semantic:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      NPM_TOKEN: ${{secrets.NPM_TOKEN}}
+      HUSKY: 0
+      CI: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "16.x"
+      - run: printf "//`node -p \"require('url').parse('https://registry.npmjs.org').host\"`/:_authToken=${NPM_TOKEN}\n" >> ~/.npmrc
+      - run: npm ci
+      - run: npm run build --if-present
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+      - run: previousVersion=$(sed 's/.*"version"&#58; "\(.*\)".*/\1/;t;d' ./package.json)
+      - run: npm i -g release-it release-it-pnpm @release-it/conventional-changelog
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          HUSKY: 0
+          CI: true
+      - run: npm run publish
+      - run: finalVersion=$(sed 's/.*"version"&#58; "\(.*\)".*/\1/;t;d' ./package.json)
+      - run: |
+          if [ "$previousVersion" != "$finalVersion" ]; then
+            git push
+          fi
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
